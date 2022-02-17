@@ -10,7 +10,7 @@ const App = () => {
   const [contacts, setContacts] = useState(
     () => JSON.parse(localStorage.getItem("contact")) || []
   );
-
+  console.log(contacts);
   const [filter, setFilter] = useState("");
 
   useEffect(() => {

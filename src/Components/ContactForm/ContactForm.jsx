@@ -1,26 +1,49 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import s from "./ContactForm.module.css";
+import {
+  addName,
+  addNumber,
+  writeContacts,
+} from "../../redux/contacts/contactsActions";
+import { contacts } from "../../redux/filter/filterAction";
+import { connect } from "react-redux";
 const stateObj = {
   name: "",
   number: "",
 };
-const ContactForm = ({ onContactSubmit }) => {
-  const [state, setState] = useState(stateObj);
+const ContactForm = ({
+  onContactSubmit,
+  addName,
+  addNumber,
+  state,
+  writeContacts,
+}) => {
+  // const [state, setState] = useState(stateObj);
 
   const heandlerInputChange = (event) => {
     const { name, value } = event.target;
-    setState({ ...state, [name]: value });
+    if (name === "name") {
+      addName(value);
+    }
+    if (name === "number") {
+      addNumber(value);
+    }
+    // console.log(name);
+    // setState({ ...state, [name]: value });
   };
-
+  console.log(state);
   const onFormSubmit = (e) => {
     e.preventDefault();
-    onContactSubmit(state);
+    // onContactSubmit(() => {
+    //   contacts(state);
+    // });
+    writeContacts(state);
     resetForm();
   };
 
   const resetForm = () => {
-    setState(stateObj);
+    writeContacts(stateObj);
   };
   return (
     <form className={s.form} onSubmit={onFormSubmit}>
@@ -53,7 +76,17 @@ const ContactForm = ({ onContactSubmit }) => {
   );
 };
 
-export default ContactForm;
+const mapStateToProps = (state) => {
+  return {
+    state: state.input,
+  };
+};
+const mapDispatchToProps = {
+  addNumber, //addNumber: addNumber
+  addName,
+  writeContacts, //addName: addName
+};
+export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);
 
 ContactForm.propTypes = {
   onContactSubmit: PropTypes.func.isRequired,

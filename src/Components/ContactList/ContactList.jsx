@@ -25,7 +25,7 @@ const ContactList = ({ getFilterContacts, removeContact }) => {
 
 export default ContactList;
 
-ContactList.propTypes = {
-  getFilterContacts: PropTypes.func.isRequired,
-  removeContact: PropTypes.func.isRequired,
-};
+// ContactList.propTypes = {
+//   getFilterContacts: PropTypes.func.isRequired,
+//   removeContact: PropTypes.func.isRequired,
+// };
