@@ -1,57 +1,60 @@
-import { useState } from "react";
-import PropTypes from "prop-types";
 import s from "./ContactForm.module.css";
-import {
-  addName,
-  addNumber,
-  writeContacts,
-} from "../../redux/contacts/contactsActions";
-import { contacts } from "../../redux/filter/filterAction";
-import { connect } from "react-redux";
+import { writeContacts } from "../../redux/contacts/contactsActions";
+import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+
 const stateObj = {
   name: "",
   number: "",
 };
-const ContactForm = ({
-  onContactSubmit,
-  addName,
-  addNumber,
-  state,
-  writeContacts,
-}) => {
-  // const [state, setState] = useState(stateObj);
+const ContactForm = () => {
+  const [form, setForm] = useState(stateObj);
+
+  const dispatch = useDispatch();
+  const contacts = useSelector((state) => state.contacts);
 
   const heandlerInputChange = (event) => {
     const { name, value } = event.target;
-    if (name === "name") {
-      addName(value);
-    }
-    if (name === "number") {
-      addNumber(value);
-    }
-    // console.log(name);
-    // setState({ ...state, [name]: value });
+    setForm({ ...form, [name]: value });
+
+    //   if (name === "name") {
+    //     dispatch(addName(value));
+    //   }
+    // if (name === "number") {
+    //   dispatch(addNumber(value));
+    // }
   };
-  console.log(state);
+
+  const onContactIncludes = (form) => {
+    for (const obj of contacts) {
+      if (obj.name.includes(form.name)) {
+        return alert(`${form.name} is olredy in contact`);
+      }
+    }
+    dispatch(writeContacts(form));
+  };
   const onFormSubmit = (e) => {
     e.preventDefault();
-    // onContactSubmit(() => {
-    //   contacts(state);
-    // });
-    writeContacts(state);
+    onContactIncludes(form);
     resetForm();
+
+    // dispatch(writeContacts(contacts));
+    // dispatch(clear());
   };
 
   const resetForm = () => {
-    writeContacts(stateObj);
+    setForm(stateObj);
   };
   return (
     <form className={s.form} onSubmit={onFormSubmit}>
       <label className={s.label}>
         <span className={s.title}>Name</span>
         <input
-          value={state.name}
+          value={form.name}
           onChange={heandlerInputChange}
+          // onChange={(e) => {
+          //   dispatch(addName(e.target.value));
+          // }}
           type="text"
           name="name"
           pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -60,8 +63,11 @@ const ContactForm = ({
         />
         <span className={s.title}>Number</span>
         <input
-          value={state.number}
+          value={form.number}
           onChange={heandlerInputChange}
+          // onChange={(e) => {
+          //   dispatch(addNumber(e.target.value));
+          // }}
           type="tel"
           name="number"
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
@@ -76,18 +82,8 @@ const ContactForm = ({
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    state: state.input,
-  };
-};
-const mapDispatchToProps = {
-  addNumber, //addNumber: addNumber
-  addName,
-  writeContacts, //addName: addName
-};
-export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);
+export default ContactForm;
 
-ContactForm.propTypes = {
-  onContactSubmit: PropTypes.func.isRequired,
-};
+// ContactForm.propTypes = {
+//   onContactSubmit: PropTypes.func.isRequired,
+// };
