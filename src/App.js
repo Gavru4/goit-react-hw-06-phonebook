@@ -1,6 +1,4 @@
-import { useState, useEffect } from "react";
 import "./App.css";
-// import { nanoid } from "nanoid";
 import Section from "./Components/Section/Section";
 import Filter from "./Components/Filter/Filter";
 import ContactList from "./Components/ContactList/ContactList";

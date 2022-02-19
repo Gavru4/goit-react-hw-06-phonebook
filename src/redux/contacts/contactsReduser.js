@@ -1,19 +1,31 @@
 import { createReducer } from "@reduxjs/toolkit";
 import { writeContacts, removeContacts } from "./contactsActions";
 
-export const contactsRudeser = createReducer("", {
-  [writeContacts]: (state, { payload }) => [...state, payload],
+// const getTodosFromLS = () => JSON.parse(localStorage.getItem("todos")) || [];
+// const setTodoToLS = (todos) =>
+//   localStorage.setItem("todos", JSON.stringify(todos));
 
-  [removeContacts]: (state, { payload }) =>
-    state.filter((el) => el.id !== payload),
+const getContactsFromLS = () =>
+  JSON.parse(localStorage.getItem("contacts")) || [];
+
+const setContactsFromLS = (contacts) =>
+  localStorage.setItem("contacts", JSON.stringify(contacts));
+
+const initialcontacts = getContactsFromLS();
+
+export const contactsRudeser = createReducer(initialcontacts, {
+  [writeContacts]: (state, { payload }) => {
+    const contacts = [...state, payload];
+    setContactsFromLS(contacts);
+    return contacts;
+  },
+
+  [removeContacts]: (state, { payload }) => {
+    const contacts = state.filter((el) => el.id !== payload);
+    setContactsFromLS(contacts);
+    return contacts;
+  },
 });
-
-// for (const obj of state) {
-//   if (obj.name.includes(payload.name)) {
-//     return alert(`${payload.name} is olredy in contact`);
-//   }
-//   return [...state, payload];
-// }
 
 // const nameReduser = createReducer("", {
 //   [addName]: (_, { payload }) => payload,

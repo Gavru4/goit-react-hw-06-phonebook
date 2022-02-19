@@ -10,7 +10,7 @@ const ContactList = () => {
   return (
     contactsList && (
       <ol className={s.list}>
-        {contactsList.map((el) => {
+        {contactsList?.map((el) => {
           return (
             <li className={s.item} key={el.id}>
               {el.name}: {el.number}
