@@ -5,24 +5,24 @@ import { writeContacts, removeContacts } from "./contactsActions";
 // const setTodoToLS = (todos) =>
 //   localStorage.setItem("todos", JSON.stringify(todos));
 
-const getContactsFromLS = () =>
-  JSON.parse(localStorage.getItem("contacts")) || [];
+// const getContactsFromLS = () =>
+//   JSON.parse(localStorage.getItem("contacts")) || [];
 
-const setContactsFromLS = (contacts) =>
-  localStorage.setItem("contacts", JSON.stringify(contacts));
+// const setContactsFromLS = (contacts) =>
+//   localStorage.setItem("contacts", JSON.stringify(contacts));
 
-const initialcontacts = getContactsFromLS();
+const initialcontacts = []; // getContactsFromLS();
 
 export const contactsRudeser = createReducer(initialcontacts, {
   [writeContacts]: (state, { payload }) => {
     const contacts = [...state, payload];
-    setContactsFromLS(contacts);
+    // setContactsFromLS(contacts);
     return contacts;
   },
 
   [removeContacts]: (state, { payload }) => {
     const contacts = state.filter((el) => el.id !== payload);
-    setContactsFromLS(contacts);
+    // setContactsFromLS(contacts);
     return contacts;
   },
 });

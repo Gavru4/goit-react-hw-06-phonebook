@@ -11,7 +11,7 @@ const ContactForm = () => {
   const [form, setForm] = useState(stateObj);
 
   const dispatch = useDispatch();
-  const contacts = useSelector((state) => state.contacts);
+  const contacts = useSelector((state) => state.transactions.contacts);
 
   const heandlerInputChange = (event) => {
     const { name, value } = event.target;
@@ -24,9 +24,10 @@ const ContactForm = () => {
     //   dispatch(addNumber(value));
     // }
   };
-
+  console.log(contacts);
   const onContactIncludes = (form) => {
     for (const obj of contacts) {
+      console.log(obj);
       if (obj.name.includes(form.name)) {
         return alert(`${form.name} is olredy in contact`);
       }
