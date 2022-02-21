@@ -24,18 +24,19 @@ const ContactForm = () => {
     //   dispatch(addNumber(value));
     // }
   };
-  console.log(contacts);
+
   const onContactIncludes = (form) => {
     for (const obj of contacts) {
-      console.log(obj);
       if (obj.name.includes(form.name)) {
         return alert(`${form.name} is olredy in contact`);
       }
     }
     dispatch(writeContacts(form));
   };
+
   const onFormSubmit = (e) => {
     e.preventDefault();
+
     onContactIncludes(form);
     resetForm();
 
